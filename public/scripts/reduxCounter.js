@@ -15,8 +15,7 @@ function counter(state = 0, action) {
   }
 }
 
-const { createStore } = Redux;
-const store =createStore (counter);
+const store = Redux.createStore (counter);
 
 var Counter = React.createClass ({
   render: function () {
