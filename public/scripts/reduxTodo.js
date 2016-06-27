@@ -16,6 +16,25 @@ function todoApp (state = [], action) {
         completed: !i.completed
       })
     })
+
+  case 'SHOW_ACTIVE':
+    return state.filter(function (i){
+      if (i.completed == false){
+        return true;
+      }else{
+        return false;
+      }
+    })
+  case 'SHOW_COMPLETED':
+    return state.filter(function (i){
+      if (i.completed == true){
+        return true;
+      }else{
+        return false;
+      }
+    })
+  case 'SHOW_ALL':
+    return state
     default:
     return state
   }
@@ -33,20 +52,30 @@ var TodoDemo = React.createClass ({
   render: function () {
     return (
         <div>
-         <input id="taskInput" type="text" />
-         <input type="button" value="Add task" onClick = {this.addTodo} />
-         <ul> {this.props.listdata.map(function (i){
+        <input id="taskInput"
+               type="text" />
+        <input type="button"
+               value="Add task"
+               onClick = {this.addTodo} />
+        <input type='button'
+               value='Show All'
+               onClick = {function (){store.dispatch({ type: 'SHOW_ALL'});}} />
+        <input type='button'
+               value='Completed'
+               onClick = {function (){store.dispatch({ type: 'SHOW_COMPLETED'});}} />
+        <input type='button'
+               value='Active'
+               onClick = {function (){store.dispatch({ type: 'SHOW_ACTIVE'});}} />
+        <ul>
+        {this.props.listdata.map(function (i){
            return (<li
                    key={i.taskId}
                    style={{textDecoration: i.completed ? 'line-through' : 'none',
                            cursor: 'pointer'}}
-                      onClick={function ()
-                                {
+                      onClick={function (){
                                  store.dispatch({ type: 'TOGGLE_TODO',
-                                                  index: i.taskId});
-                                }}
-                   >{i.taskName}</li>);
-            })}
+                                                  index: i.taskId});}}>
+                   {i.taskName}</li>);})}
          </ul>
         </div>
     );
